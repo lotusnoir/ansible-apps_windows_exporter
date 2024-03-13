@@ -29,12 +29,7 @@
       args:
         chdir: "{{ windows_exporter_download_dir }}"
       register: _installedwindows_exporter
-
-    - name: "Remove installer package on successful install"
-      win_file:
-        path: '{{ windows_exporter_download_dir }}\windows_exporter-{{ windows_exporter_version }}-{{ win_arch }}.msi'
-        state: absent
-      when: _installedwindows_exporter.changed
+      notify: Remove installer msi package
 
 ### Install from file
 - name: "Install from internet"
@@ -50,9 +45,4 @@
     - name: "Install windows_exporter package"
       win_command: 'msiexec /i {{ _windows_exporter_copied.dest }} ENABLED_COLLECTORS="ad,adfs,cache,cpu,cpu_info,cs,container,dfsr,dhcp,dns,fsrmquota,iis,logical_disk,logon,memory,msmq,mssql,netframework_clrexceptions,netframework_clrinterop,netframework_clrjit,netframework_clrloading,netframework_clrlocksandthreads,netframework_clrmemory,netframework_clrremoting,netframework_clrsecurity,net,os,process,remote_fx,service,tcp,time,vmware" TEXTFILE_DIR="C:\custom_metrics" LISTEN_PORT="{{ windows_exporter_listen_port }}"'
       register: _installedwindows_exporter
-
-    - name: "Remove installer package on successful install"
-      win_file:
-        path: '{{ _windows_exporter_copied.dest }}'
-        state: absent
-      when: _installedwindows_exporter.changed
+      notify: Remove installer package

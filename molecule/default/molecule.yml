@@ -20,9 +20,9 @@ platforms:
   - name: apps-windows-exporter-${MOLECULE_DISTRIB:-debian12}
     image: lotusnoir/ansible_molecule_test_images:${MOLECULE_DISTRIB:-debian12}
     command: ${MOLECULE_DOCKER_COMMAND:-""}
-    cgroupns_mode: host
+    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
     pre_build_image: true
-    privileged: true
+    cgroupns_mode: host
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
 
@@ -30,7 +30,6 @@ provisioner:
   name: ansible
   connection_options:
     ansible_remote_tmp: /tmp
-    ansible_python_interpreter: auto_silent
   playbooks:
     prepare: prepare.yml
     converge: playbook.yml

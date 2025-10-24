@@ -22,6 +22,7 @@
 ## Description
 
 Install and configure node exporter for windows
+
 ## Requirements
 
 none
@@ -39,7 +40,6 @@ See [variables](/defaults/main.yml) for more details.
           gather_facts: true
           roles:
             - role: ansible-apps_windows_exporter
-
 
 ## License
 
